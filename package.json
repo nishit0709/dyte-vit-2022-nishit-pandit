@@ -1,0 +1,24 @@
+{
+  "name": "sdk_repo_tool",
+  "version": "1.0.0",
+  "description": "A nodeJs based tool to maintain verify installed package versions",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nishit0709/SDK-Tool.git"
+  },
+  "keywords": [
+    "NodeJS",
+    "CLI",
+    "Version"
+  ],
+  "author": "Nishit Pandit[VIT-19BCE2514]",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nishit0709/SDK-Tool/issues"
+  },
+  "homepage": "https://github.com/nishit0709/SDK-Tool#readme"
+}
