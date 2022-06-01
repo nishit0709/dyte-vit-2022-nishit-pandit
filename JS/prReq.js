@@ -1,4 +1,4 @@
-exports.createPr = function(){
+exports.createPr = function(csv_file, tool, version, branch){
     const data = []
     const fs = require('fs')
     const csv = require('fast-csv')
@@ -6,11 +6,15 @@ exports.createPr = function(){
     const semver = require('semver')
     const chalk = require("chalk")
     const git = require('simple-git')
-    fs.createReadStream(csv_file, pat)
+    const pullRequest = require('./pullReq')
+    const readLine = require('prompt-sync')()
+    fs.createReadStream(csv_file)
         .pipe(csv.parse({headers: true}))
         .on('error', error => console.log(error))
         .on('data', row => data.push(row))
         .on('end', () =>{
+            var id = readLine("Enter your GitHub ID: ")
+            var token = readLine("Enter your Personal-Access-Token: ")
             data.forEach(repo => {
                 let url =  "https://raw.githubusercontent.com/" + (repo.repo).slice(20).trim() + "/main/package.json"
                 fetch( url)
@@ -20,39 +24,30 @@ exports.createPr = function(){
                     if(semver.gte(rVersion, version))
                         console.log(chalk.green("✓ " + rVersion + " - " + repo.name))
                     else{
-                        git
-                            .addRemote('origin', 'https://'+pat+"@github.com"+(repo.name).trim()+".git")
-                            .clone("https://github.com/dyte-in/react-sample-app", './temp')
-                            .then(() => {
-                                git
-                                    .clone("https://github.com/dyte-in/react-sample-app", './test')
-                                    .then(() => console.log("finished"))
-                                    .catch((err)=>console.log)
+                       git
+                        .clone("https://github.com/nishit0709/SDK-Tool", './temp')
+                        .then(() => {
+                            let data = fs.readFileSync("./temp/package.json", "utf-8")
+                            data = JSON.parse(data)
+                            console.log(data.dependencies.chalk)
+                            data.dependencies.chalk = "^" + "4.4.0"
+                            data = JSON.stringify(data, null, 2)
+                            try {
+                                fs.writeFileSync("./temp/package.json", data, 'utf-8')
+                            } catch (error) {
+                                console.log(error)
+                            }
 
-                                let deps = fs.readFileSync("./test/package.json", "utf-8")
-                                deps = JSON.parse(deps)
-                                deps.dependencies.axios = "^" + "0.26.1"
-                                deps = JSON.stringify(deps, null, 2)
-                                try {
-                                    fs.writeFileSync("./test/package.json", deps, 'utf-8')
-                                } catch (error) {
-                                    console.log(error)
-                                }
+                            git
+                            .addRemote('https://'+token+'github.com/'+id,repo.name+'.git/')
+                            .add("./package.json")
+                            .commit(tool+" version changed to" +version)
+                            .push('origin', 'main', () =>{
+                                let link = pullRequest(token, user, repo.name, tool, version)
+                                console.log(chalk.yellow("✘ " + rVersion + " - " + repo.name +' - '+ link))
                             })
-                            .then(() => {
-                                git
-                                    .commit("library-chalk version changed to 4.4.0")
-                                    .push('origin', 'main', () =>{
-                                        console.log("Push Sucessful")
-                                    })
-                                const execSync = require('child_process').execSync;
-                                let origin =  "https://" + pat + "@github.com/" + (repo.name).trim + ".git/"
-                                let command = "cd temp; git remote set-url origin " + origin + "; git request-pull origin main:repo-update"
-                                code = execSync(command);
-                            })
-                            .catch((err)=>console.log)
-                    }
-                                
+                        })
+                    }              
                 })
             });
         })

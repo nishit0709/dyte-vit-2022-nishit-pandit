@@ -1,4 +1,4 @@
-exports.verifyFile = function (csv_file, tool, version){
+exports.verifyFile = function (csv_file, tool, version, branch){
     const data = []
     const fs = require('fs')
     const csv = require('fast-csv')
@@ -11,7 +11,7 @@ exports.verifyFile = function (csv_file, tool, version){
         .on('data', row => data.push(row))
         .on('end', () =>{
             data.forEach(repo => {
-                let url =  "https://raw.githubusercontent.com/" + (repo.repo).slice(20).trim() + "/main/package.json"
+                let url =  "https://raw.githubusercontent.com/" + (repo.repo).slice(20).trim() + '/' + branch + "/package.json"
                 fetch( url)
                 .then(response => response.json())
                 .then(result => {
@@ -26,12 +26,12 @@ exports.verifyFile = function (csv_file, tool, version){
         })
 }
 
-exports.verifyLink = function (link, tool, version){
+exports.verifyLink = function (link, tool, version, branch){
     const fetch = require('node-fetch')
     const semver = require('semver')
     const chalk = require("chalk")
     let name = link.slice(19)
-    let url =  "https://raw.githubusercontent.com/" + link.slice(19).trim() + "/main/package.json"
+    let url =  "https://raw.githubusercontent.com/" + link.slice(19).trim() + '/' + branch +"/package.json"
     fetch( url)
     .then(response => response.json())
     .then(result => {
