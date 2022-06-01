@@ -1,9 +1,17 @@
 # dyte-vit-2022-nishit-pandit
 
-
-to run the program, navigate to the directory:
+## Some basic Commmds
+```
 ./cvers.js --help
-(if it doesn't run, change the node shebang in the cvers.js file)
+./cvers.js -l https://github.com/dyte-in/react-sample-app/ -b main -t axios -v 0.20.1
+./cvers.js -f data.csv -b main -t axios -v 0.20.1
+./cvers.js -u -f data.csv -b main -t axios -v 0.20.1
+```
 
+## Possible Issues
+```
+CSV input failed -> add the remote repos to be checked in the data.csv file itself
+Program doesn't execute -> change the node executable location in cvers.js
+PR request command failed -> For the execution, a clone of the remote repo should exist on the user's github
+```
 
-Library version check works perfectly, for the creation of the PR request, a clone of the remote repo should exist on the usrr's github id for it to work
