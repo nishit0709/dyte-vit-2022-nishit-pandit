@@ -20,5 +20,14 @@
   "bugs": {
     "url": "https://github.com/nishit0709/SDK-Tool/issues"
   },
-  "homepage": "https://github.com/nishit0709/SDK-Tool#readme"
+  "homepage": "https://github.com/nishit0709/SDK-Tool#readme",
+  "dependencies": {
+    "chalk": "^4.1.1",
+    "fast-csv": "^4.3.6",
+    "neat-csv": "^7.0.0",
+    "node-fetch": "^2.6.1",
+    "nodemon": "^2.0.16",
+    "semver": "^7.3.7",
+    "yargs": "^17.5.1"
+  }
 }
