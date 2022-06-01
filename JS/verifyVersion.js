@@ -27,7 +27,6 @@ exports.verifyFile = function (csv_file, tool, version){
 }
 
 exports.verifyLink = function (link, tool, version){
-    const data = []
     const fetch = require('node-fetch')
     const semver = require('semver')
     const chalk = require("chalk")
