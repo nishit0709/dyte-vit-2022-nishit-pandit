@@ -43,8 +43,12 @@ const argv = yargs(process.argv.slice(2))
             alias: 'update',
             type: 'string',
             describe: 'Create a PR request if lower version found'
+        },
+        p:{
+            alias: 'personal-token',
+            type: 'string',
+            describe: 'Your personal access token for github'
         }
-            
     })
     .describe("help", "Show help")
     .describe("version", "Show version number")
@@ -55,9 +59,9 @@ console.log(argv)
 
 if(argv.l)
     verifyLink(argv.link, argv.tool, argv.ver)
-else if(argv.f)
+else if(argv.f && argv.i)
     verifyFile(argv.csvFile, argv.tool, argv.ver)
-else if(argv.u){
-    
+else if(argv.u && argv.p){
+
 } else
-    console.log("Please enter a valid command")
+    console.log("Please refer to cvers --help to enter valid commands")

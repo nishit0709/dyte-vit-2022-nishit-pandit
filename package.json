@@ -23,11 +23,13 @@
   "homepage": "https://github.com/nishit0709/SDK-Tool#readme",
   "dependencies": {
     "chalk": "^4.1.1",
+    "child_process": "^1.0.2",
     "fast-csv": "^4.3.6",
     "neat-csv": "^7.0.0",
     "node-fetch": "^2.6.1",
     "nodemon": "^2.0.16",
     "semver": "^7.3.7",
+    "simple-git": "^3.7.1",
     "yargs": "^17.5.1"
   }
 }
